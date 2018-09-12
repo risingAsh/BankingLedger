@@ -36,12 +36,12 @@
        Amount:<br />
        <asp:TextBox ID="WithdrawTextbox" runat="server"></asp:TextBox>
        <br />
-       <asp:Button ID="WithdrawButton" runat="server" Text="Submit" />
+       <asp:Button ID="WithdrawButton" runat="server" Text="Submit" OnClick="WithdrawButton_Click" />
        <br />
        <asp:Label ID="WithdrawSuccess" runat="server" Text=""></asp:Label>
        <br />
        <br />
-       <asp:Label ID="TransactionHistoryLabel" runat="server" Text="Transaction History"></asp:Label>
+       <asp:Label ID="TransactionHistoryLabel" runat="server" Text="Transaction History" Font-Size="Larger"></asp:Label>
        <br />
        <asp:GridView ID="GridView1" runat="server">
        </asp:GridView>

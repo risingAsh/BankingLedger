@@ -149,5 +149,53 @@ namespace BankingLedger.Account
                 DepositSuccess.Text = "Invalid value. Deposit value must be of the form: $.¢¢";
             }
         }
+
+        protected void WithdrawButton_Click(object sender, EventArgs e)
+        {
+            double withdraw;
+            if (double.TryParse(WithdrawTextbox.Text, out withdraw)) //If the input is a double
+            {
+                DataTable table;
+                //Create a new row for the banking ledger table
+                if (Session["bankLedger"] == null) //if there is no transaction data yet
+                {
+                    table = new DataTable();
+                    table.Columns.Add("Date", typeof(string));
+                    table.Columns.Add("Deposit", typeof(double));
+                    table.Columns.Add("Withdrawal", typeof(double));
+                    table.Columns.Add("Balance", typeof(double));
+
+                    //Add deposit information
+                    table.Rows.Add(WithdrawDate.Text, 0.00, withdraw, withdraw * -1);
+
+                    //Save table to local cache
+                    Session["bankLedger"] = table;
+
+                    //Save balance for easy access
+                    Session["balance"] = withdraw * -1;
+                }
+                else
+                {
+                    table = (DataTable)Session["bankLedger"];
+
+                    //Update balance
+                    Session["balance"] = (double)Session["balance"] - withdraw;
+
+                    //Add deposit information
+                    table.Rows.Add(WithdrawDate.Text, 0.00, withdraw, (double)Session["balance"]);
+
+                    //Save table to local cache
+                    Session["bankLedger"] = table;
+                }
+                //Update GridView
+                GridView1.DataSource = table;
+                GridView1.DataBind();
+                WithdrawSuccess.Text = "Withdrawal was successful!";
+            }
+            else
+            {
+                WithdrawSuccess.Text = "Invalid value. Withdrawal value must be of the form: $.¢¢";
+            }
+        }
     }
 }

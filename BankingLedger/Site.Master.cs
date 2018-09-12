@@ -74,6 +74,10 @@ namespace BankingLedger
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
+            if (Session["bankLedger"] != null)
+                Session["bankLedger"] = null;
+            if (Session["balance"] != null)
+                Session["balance"] = null;
             Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
         }
     }
