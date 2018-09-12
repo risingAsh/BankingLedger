@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using BankingLedger.Models;
+using System.Web.UI.WebControls;
+using System.Data;
 
 namespace BankingLedger.Account
 {
@@ -48,7 +50,11 @@ namespace BankingLedger.Account
 
             var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
 
-           
+            if (Session["bankLedger"] != null)
+            {
+                GridView1.DataSource = (DataTable)Session["bankLedger"];
+                GridView1.DataBind();
+            }
         }
 
 
@@ -101,6 +107,41 @@ namespace BankingLedger.Account
             double dep;
             if (double.TryParse(DepositTextbox.Text, out dep)) //If the input is a double
             {
+                DataTable table;
+                //Create a new row for the banking ledger table
+                if (Session["bankLedger"] == null) //if there is no transaction data yet
+                {
+                    table = new DataTable();
+                    table.Columns.Add("Date", typeof(string));
+                    table.Columns.Add("Deposit", typeof(double));
+                    table.Columns.Add("Withdrawal", typeof(double));
+                    table.Columns.Add("Balance", typeof(double));
+
+                    //Add deposit information
+                    table.Rows.Add(DepositDate.Text, dep, 0.00, dep);
+
+                    //Save table to local cache
+                    Session["bankLedger"] = table;
+
+                    //Save balance for easy access
+                    Session["balance"] = dep;
+                }
+                else
+                {
+                    table = (DataTable)Session["bankLedger"];
+
+                    //Update balance
+                    Session["balance"] = (double)Session["balance"] + dep;
+
+                    //Add deposit information
+                    table.Rows.Add(DepositDate.Text, dep, 0.00, (double)Session["balance"]);
+
+                    //Save table to local cache
+                    Session["bankLedger"] = table;
+                }
+                //Update GridView
+                GridView1.DataSource = table;
+                GridView1.DataBind();
                 DepositSuccess.Text = "Deposit was successful!";
             }
             else

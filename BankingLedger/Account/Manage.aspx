@@ -43,14 +43,8 @@
        <br />
        <asp:Label ID="TransactionHistoryLabel" runat="server" Text="Transaction History"></asp:Label>
        <br />
-       <asp:Table ID="Table1" runat="server">
-           <asp:TableRow runat="server" BorderStyle="Solid">
-               <asp:TableCell runat="server" BorderStyle="Solid">Date</asp:TableCell>
-               <asp:TableCell runat="server" BorderStyle="Solid">Deposit</asp:TableCell>
-               <asp:TableCell runat="server" BorderStyle="Solid">Withdrawal</asp:TableCell>
-               <asp:TableCell runat="server" BorderStyle="Solid">Balance</asp:TableCell>
-           </asp:TableRow>
-       </asp:Table>
+       <asp:GridView ID="GridView1" runat="server">
+       </asp:GridView>
        <br />
        <br />
     </div>
