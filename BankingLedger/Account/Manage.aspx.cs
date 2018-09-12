@@ -143,10 +143,12 @@ namespace BankingLedger.Account
                 GridView1.DataSource = table;
                 GridView1.DataBind();
                 DepositSuccess.Text = "Deposit was successful!";
+                WithdrawSuccess.Text = "";
             }
             else
             {
                 DepositSuccess.Text = "Invalid value. Deposit value must be of the form: $.¢¢";
+                WithdrawSuccess.Text = "";
             }
         }
 
@@ -191,10 +193,12 @@ namespace BankingLedger.Account
                 GridView1.DataSource = table;
                 GridView1.DataBind();
                 WithdrawSuccess.Text = "Withdrawal was successful!";
+                DepositSuccess.Text = "";
             }
             else
             {
                 WithdrawSuccess.Text = "Invalid value. Withdrawal value must be of the form: $.¢¢";
+                DepositSuccess.Text = "";
             }
         }
     }
